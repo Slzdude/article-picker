@@ -1,0 +1,88 @@
+{
+  "rules": [
+    {
+      "name": "微信文章",
+      "author": "Skactor",
+      "url": "mp.weixin.qq.com",
+      "header": {
+        "title": "<title>(.+?)</title>",
+        "author": "nickname ?= ?\"(.+?)\";",
+        "date": {
+          "value": "ct ?= ?\"(\\d+)\"",
+          "filter": [
+            "ts2dt"
+          ]
+        }
+      },
+      "content": {
+        "begin": "<div class=\"rich_media_content \" id=\"js_content\">",
+        "end": "<script nonce="
+      }
+    },
+    {
+      "name": "cnblog",
+      "author": "Skactor",
+      "url": "www.cnblogs.com",
+      "header": {
+        "title": "<title>(.+?) - ",
+        "author": " - (.+?) - ",
+        "date": "entryCreatedDate='(.+?)'"
+      },
+      "content": {
+        "begin": "<div id=\"cnblogs_post_body",
+        "end": "<div id=\"post_next_prev\">"
+      }
+    },
+    {
+      "name": "freebuf",
+      "author": "Skactor",
+      "url": "www.freebuf.com",
+      "rule": "freebuf",
+      "header": {
+        "title": "  (.+?) - "
+      },
+      "replace": {
+        "data-original": "src",
+        "src=\"http://www.freebuf.com/buf/themes/freebuf/images/grey.gif\" ": ""
+      },
+      "content": {
+        "begin": "<div id=\"contenttxt\">",
+        "end": "<div class=\"article-oper"
+      }
+    },
+    {
+      "name": "hackingarticles",
+      "author": "Skactor",
+      "url": "www.hackingarticles.in",
+      "header": {
+        "author": "\"author\">(.+?)</a>",
+        "date": "published_time\" content=\"(.+?)\""
+      },
+      "content": {
+        "begin": "<div class=\"entry-content clearfix\">",
+        "end": "<div class=\"linkwithin_hook"
+      }
+    },
+    {
+      "name": "Hexo Next",
+      "author": "Skactor",
+      "url": "/\\d+/\\d+/\\d+/",
+      "regex": true,
+      "header": {
+        "title": "title\" content=\"(.+?)\">",
+        "author": "<meta itemprop=\"name\" content=\"(.+?)\">",
+        "date": "datetime=\"(.+?)\">"
+      },
+      "content": {
+        "begin": "articleBody\">",
+        "end": "<footer class=\"post-footer\">"
+      }
+    },
+    {
+      "name": "default",
+      "author": "Skactor",
+      "url": "\\S+",
+      "regex": true
+    }
+  ]
+}
