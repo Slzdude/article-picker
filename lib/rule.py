@@ -59,7 +59,7 @@ class Rule:
                 return re.search(self.rule['url'], url, re.I) is not None
         return url.find(self.rule['url']) > -1
 
-    def _merge_header(self, hs):
+    def merge_header(self, hs):
         header = '---\r\n'
         for k in hs:
             header += '%s: %s\r\n' % (k, hs[k])
@@ -96,8 +96,8 @@ class Rule:
                                     raise ('Filter %s not found' % _f)
                     ret[k] = _tmp
             else:
-                raise Exception('Unknown type: ' + type(v))
-        self._header = self._merge_header(ret)
+                raise Exception('Unknown type: ' + str(type(v)))
+        self._header = self.merge_header(ret)
         if self.debug:
             print(self._header)
         return self._header
