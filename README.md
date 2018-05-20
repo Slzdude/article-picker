@@ -82,6 +82,8 @@ This above `replace` parameter is used when you wan't the process your content *
 }
 ```
 Like the `Content` parameter shown above, you can specify the begin and end string of content. This is always useful and should be specify each time.
+
+You can also add `filter` to content to process your data
 ## Reference
 Libs now:
  - https://github.com/aaronsw/html2text
