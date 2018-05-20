@@ -66,6 +66,22 @@ class Rule:
         header += '---\r\n\r\n'
         return header
 
+    def filter(self, data, filter):
+        def call(name, data):
+            if hasattr(Filter, name):
+                return getattr(Filter, name)(data)
+            else:
+                raise ('Filter %s not found' % name)
+
+        if isinstance(filter, list):
+            for f in filter:
+                data = call(f, data)
+        elif isinstance(filter, str):
+            data = call(filter, data)
+        else:
+            raise Exception('Unknown Filter Type: %s' % type(filter).__name__)
+        return data
+
     def _clean(self, data):
         for ori, aft in self.replace.items():
             data = re.sub(ori, aft, data, re.I | re.S | re.M)
@@ -81,19 +97,14 @@ class Rule:
                         ret[k] = _r[0]
                         continue
                 ret[k] = v
-            elif type(v) is dict:
+            elif isinstance(v, dict):
                 if 'value' in v.keys():
                     _r = re.findall(v['value'], data)
                     if len(_r) == 0:
                         continue
                     _tmp = _r[0]
                     if 'filter' in v.keys():
-                        if type(v['filter']) is list:
-                            for _f in v['filter']:
-                                if hasattr(Filter, _f):
-                                    _tmp = getattr(Filter, _f)(_tmp)
-                                else:
-                                    raise ('Filter %s not found' % _f)
+                        _tmp = self.filter(_tmp, v['filter'])
                     ret[k] = _tmp
             else:
                 raise Exception('Unknown type: ' + str(type(v)))
@@ -110,6 +121,8 @@ class Rule:
             _end = data.find(self.content['end'])
             if _end != -1:
                 data = data[:_end]
+        if 'filter' in self.content.keys():
+            data = self.filter(data, self.content['filter'])
         result = data
         result = self._clean(result)
         if self.method == 1:

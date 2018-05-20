@@ -79,6 +79,28 @@
       }
     },
     {
+      "name": "Python Docs",
+      "author": "Skactor",
+      "url": "https://docs.python.org/",
+      "regex": false,
+      "content": {
+        "begin": "<div class=\"body\" role=\"main\">",
+        "end": "<div class=\"sphinxsidebar\"",
+        "filter":"table"
+      }
+    },
+    {
+      "name": "RD文档",
+      "author": "Skactor",
+      "url": "https://www.rddoc.com/",
+      "regex": false,
+      "content": {
+        "begin": "<div class=\"rdd-content\">",
+        "end": "<div class=\"col-md-3\">",
+        "filter":"table"
+      }
+    },
+    {
       "name": "default",
       "author": "Skactor",
       "url": "\\S+",
